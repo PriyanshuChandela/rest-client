@@ -1,22 +1,21 @@
-import { EntitySchema } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 
-export interface RequestHistory {
-  id: number;
-  method: string;
-  url: string;
-  requestBody?: string;
-  responseBody?: string;
-  createdAt: Date;
+@Entity()
+export class RequestHistory {
+  @PrimaryKey()
+  id!: number;
+
+  @Property()
+  url!: string;
+
+  @Property()
+  method!: string;
+
+  @Property({ type: 'text', nullable: true })
+  response?: string;
+
+  @Property()
+  createdAt: Date = new Date();
 }
 
-export const RequestHistorySchema = new EntitySchema<RequestHistory>({
-  name: 'RequestHistory',
-  properties: {
-    id: { type: 'number', primary: true },
-    method: { type: 'string' },
-    url: { type: 'string' },
-    requestBody: { type: 'string', nullable: true },
-    responseBody: { type: 'string', nullable: true },
-    createdAt: { type: 'date' },
-  },
-});
+
